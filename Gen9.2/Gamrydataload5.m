@@ -1,0 +1,21 @@
+function sudata=Gamrydataload5(DTApath,canshu,name,Id)
+pathh=DTApath;
+canshu1=canshu.Reference;
+canshu2=canshu.Area;
+canshu3=canshu.pH;
+[outdata,judge,cyclenumble,lim1,lim2,scanrate,Elearea]=Gamrydataload3(pathh);
+data=Datachange4(outdata,judge,cyclenumble,canshu1,canshu2,canshu3);
+sudata.data=data;
+sudata.path=pathh;
+sudata.cyclenumble=cyclenumble;
+sudata.judge=judge;
+sudata.lim1=lim1;
+sudata.lim2=lim2;
+sudata.scanrate=scanrate;
+sudata.Elearea=Elearea;
+sudata.canshu1=canshu1;
+sudata.canshu2=canshu2;
+sudata.canshu3=canshu3;
+sudata.DTAname=name;
+sudata.Id=Id;
+end

@@ -1,0 +1,55 @@
+function ExecuteTask1(obj,eventdata,UserData)
+ud=obj.UserData;
+handles=ud.handle;
+state=ud.statenum;
+ud.Time=ud.Time+0.1;
+if(strcmp(ud.Report,ud.STRdata.str3)~=1&&strcmp(ud.Report,'')~=1)
+    ud.STRdata.str1=ud.STRdata.str2;
+    ud.STRdata.str2=ud.STRdata.str3;
+    ud.STRdata.str3=ud.Report;
+    ud.Report='';
+    handles.strtext1.String=ud.STRdata.str1;
+    handles.strtext2.String=ud.STRdata.str2;
+    handles.strtext3.String=ud.STRdata.str3;
+end
+if(ud.Statebefore~=state)
+    if(state==10)
+        ud.Statebefore=10;
+        chaoranstate=evalin('base','statebase');
+        if(chaoranstate==1)
+            ud.Statebefore=2;
+        end
+    else
+    ud.STRdata.str1=ud.STRdata.str2;
+    ud.STRdata.str2=ud.STRdata.str3;
+    if(state==0)
+        ud.Statebefore=0;
+        ud.STRdata.str3='请选择文件夹';
+    elseif(state==1)
+        ud.Statebefore=1;
+        ud.STRdata.str3='文件选择成功，请输入参数';
+    elseif(state==2)
+        ud.Statebefore=2;
+        ud.STRdata.str3='计算完成等待保存';
+    elseif(state==3)
+        ud.Statebefore=3;
+        ud.STRdata.str3='保存完成';
+    elseif(state==4)
+        ud.Statebefore=4;
+        ud.STRdata.str3='数据加载完成';
+    elseif(state==7)
+        ud.Statebefore=7;
+        ud.STRdata.str3='文件夹打开失败，请重新选择';
+    elseif(state==8)
+        ud.Statebefore=8;
+        ud.STRdata.str3='计算中';
+    end
+    handles.strtext1.String=ud.STRdata.str1;
+    handles.strtext2.String=ud.STRdata.str2;
+    handles.strtext3.String=ud.STRdata.str3;
+    end
+end
+
+pause(0.001)
+set(obj,'UserData',ud);
+end

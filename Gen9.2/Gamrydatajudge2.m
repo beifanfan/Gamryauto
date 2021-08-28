@@ -1,0 +1,51 @@
+function [judge,yushestart,yushelieshu,cyclenumble,lim1,lim2,scanrate,Elearea,Reportword]=Gamrydatajudge2(path)
+Reportword='';
+fid=fopen(path,'r');
+k=textscan(fid,'%s%s',1);
+k=textscan(fid,'%s%s',1);
+fclose(fid);
+yushelieshu=5;cyclenumble=1;lim1=0;lim2=0;scanrate=0;%勿动
+if(strcmp(k{1,2}{1,1},'CV'))
+    judge='CV';
+elseif(strcmp(k{1,2}{1,1},'LSV'))
+    judge='LSV';
+elseif(strcmp(k{1,2}{1,1},'CHRONOP'))
+    judge='CHRONOP';
+elseif(strcmp(k{1,2}{1,1},'CHRONOA'))
+    judge='CHRONOA';
+elseif(strcmp(k{1,2}{1,1},'EISPOT'))
+    judge='EISPOT';
+else
+    judge=k{1,2}{1,1};
+    Reportword='Maybe error';
+end
+fid=fopen(path,'r');
+cyclenumble=0;
+lim1=0;
+lim2=0;
+scanrate=0;
+Elearea=1;
+for i=1:200
+    k=textscan(fid,'%s%s%s%s%s%s%s%s%s%s%s%s%s',1);
+    if(strcmp(k{1,1}{1,1},'#'))
+        yushestart=i+1;
+        break
+    end
+    if(strcmp(k{1,1}{1,1},'CYCLES'))
+        cyclenumble=str2num(k{1,3}{1,1});
+    end
+    if(strcmp(k{1,1}{1,1},'VLIMIT1'))
+        lim1=str2num(k{1,3}{1,1});
+    end
+    if(strcmp(k{1,1}{1,1},'VLIMIT2'))
+        lim2=str2num(k{1,3}{1,1});
+    end
+    if(strcmp(k{1,1}{1,1},'SCANRATE'))
+        scanrate=str2num(k{1,3}{1,1});
+    end
+    if(strcmp(k{1,1}{1,1},'AREA'))
+        Elearea=str2num(k{1,3}{1,1});
+    end
+end
+fclose(fid);
+end

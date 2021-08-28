@@ -1,0 +1,50 @@
+function data = Datachange4(outdata,judge,cyclenumble,Reference,Area,pH)
+%UNTITLED4 此处显示有关此函数的摘要
+%   此处显示详细说明
+if(isempty(outdata))
+    data=0;
+    return
+end
+if(strcmp(judge,'CV')||strcmp(judge,'LSV'))
+    if(cyclenumble==1||cyclenumble==0)
+    EvsRHE=outdata(1).data(:,3)+Reference+0.0592*pH;
+    ImAcm2=outdata(1).data(:,4)/Area*1000;
+    data.cycle(1).data(:,1)=EvsRHE;
+    data.cycle(1).data(:,2)=ImAcm2;
+    data.cyclenum=1;
+    elseif(cyclenumble>1)
+        [~,kk]=size(outdata);
+        data.cyclenum=cyclenumble;
+        for i=1:kk
+            EvsRHE=[];
+            ImAcm2=[];
+            dataa=[];
+            EvsRHE=outdata(i).data(:,3)+Reference+0.0592*pH;
+            ImAcm2=outdata(i).data(:,4)/Area*1000;
+            dataa(:,1)=EvsRHE;
+            dataa(:,2)=ImAcm2;
+            data.cycle(i).data=dataa;
+        end
+    end
+elseif(strcmp(judge,'CHRONOP')||strcmp(judge,'CHRONOA'))
+    EvsRHE=outdata(1).data(:,3)+Reference+0.0592*pH;
+    %ImAcm2=outdata(:,4)/Area*1000;
+    ImAcm2=outdata(1).data(:,4)*1000;
+    data.cycle(1).data(:,1)=outdata(1).data(:,2);
+    data.cycle(1).data(:,2)=EvsRHE;
+    data.cycle(1).data(:,3)=ImAcm2;
+    data.cyclenum=1;
+elseif(strcmp(judge,'EISPOT'))
+    data.cycle(1).data(:,1)=outdata(1).data(:,3);
+    data.cycle(1).data(:,2)=outdata(1).data(:,4);
+    data.cycle(1).data(:,3)=outdata(1).data(:,5);
+else
+    EvsRHE=outdata(1).data(:,3)+Reference+0.0592*pH;
+    %ImAcm2=outdata(:,4)/Area*1000;
+    ImAcm2=outdata(1).data(:,4)*1000;
+    data.cycle(1).data(:,1)=outdata(1).data(:,2);
+    data.cycle(1).data(:,2)=EvsRHE;
+    data.cycle(1).data(:,3)=ImAcm2;
+    data.cyclenum=1;
+end
+end
